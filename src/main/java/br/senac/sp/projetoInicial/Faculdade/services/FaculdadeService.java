@@ -9,6 +9,7 @@ import br.senac.sp.projetoInicial.Faculdade.Repositories.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -49,5 +50,19 @@ public class FaculdadeService {
     @PostMapping
     public Aluno gravarAluno(Aluno aluno) {
         return alunoRepository.save(aluno);
+    }
+
+    public void deletar(Integer ra) {
+        alunoRepository.deleteById(ra);
+    }
+
+    public Aluno update(Integer ra, Aluno aluno) {
+        Aluno alterado = findById(ra);
+        if (alterado != null) {
+            alterado.setNome(aluno.getNome());
+            alterado.setDataCadastro(aluno.getDataCadastro());
+            alterado.setAtivo(aluno.isAtivo());
+        }
+        return null;
     }
 }

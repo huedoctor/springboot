@@ -52,13 +52,25 @@ public class FaculdadeResource {
         return ResponseEntity.ok().body(aluno);
     }
 
-    @PostMapping(value ="/gravar")
+    @PostMapping//(value ="/gravar")
     public ResponseEntity<Aluno> gravarAluno(
             @RequestBody Aluno aluno){
         aluno = faculdadeService.gravarAluno(aluno);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{ra}").
                 buildAndExpand(aluno.getRa()).toUri();
         return ResponseEntity.created(uri).body(aluno);
+    }
+
+    @DeleteMapping(value = "/{ra}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer ra){
+        faculdadeService.deletar(ra);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{ra}")
+    public ResponseEntity<Aluno> update(@PathVariable Integer ra, @RequestBody Aluno aluno){
+        Aluno alterado = faculdadeService.update(ra,aluno);
+        return ResponseEntity.ok().body(alterado);
     }
 
 
