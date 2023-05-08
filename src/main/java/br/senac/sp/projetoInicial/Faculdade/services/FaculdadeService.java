@@ -15,18 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Service
 public class FaculdadeService {
     @Autowired
-    static
     AlunoRepository alunoRepository;
 
     public FaculdadeService(AlunoRepository alunoRepository) {
         this.alunoRepository = alunoRepository;
-    }
-
-    @PostMapping
-    public static Aluno gravarAluno(Aluno aluno) {
-        return alunoRepository.save(aluno);
-
-
     }
 
     public Aluno findById(Integer ra) {
@@ -52,5 +44,10 @@ public class FaculdadeService {
     public Aluno findByNome(String nome) {
         Optional<Aluno> aluno = alunoRepository.findByNome(nome);
         return aluno.orElse(null);
+    }
+
+    @PostMapping
+    public Aluno gravarAluno(Aluno aluno) {
+        return alunoRepository.save(aluno);
     }
 }
