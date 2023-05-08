@@ -5,12 +5,13 @@ import br.senac.sp.projetoInicial.Faculdade.Entities.Aluno;
 import br.senac.sp.projetoInicial.Faculdade.services.FaculdadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
+
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 @RestController
 @RequestMapping(value = "/faculdade")
@@ -50,6 +51,16 @@ public class FaculdadeResource {
         Aluno aluno = faculdadeService.findByNome(nome);
         return ResponseEntity.ok().body(aluno);
     }
+
+    @PostMapping(value ="/gravar")
+    public ResponseEntity<Aluno> gravarAluno(
+            @RequestBody Aluno aluno){
+        aluno = faculdadeService.gravarAluno(aluno);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{ra}").
+                buildAndExpand(aluno.getRa()).toUri();
+        return ResponseEntity.created(uri).body(aluno);
+    }
+
 
 }
 
